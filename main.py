@@ -18,13 +18,17 @@ class Name(Field):
         self.value = first_name.strip()
 
 class Phone(Field):
+    
     def __init__(self, number):
-        self.set_phone_number(number)
+        if not self.is_valid(number):
+            raise ValueError('Invalid number')
+        super().__init__(number)
 
-    def set_phone_number(self, number):
-        if not (number.isdigit() and len(number) == 10):
-            raise ValueError("Invalid phone number")
-        self.value = number
+
+    def is_valid(self, number):
+        if number.isdigit() and len(number) == 10:
+            return True
+        return False
 
 class Record:
     def __init__(self, name):
